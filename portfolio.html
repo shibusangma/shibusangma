@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shibu Sangma portfolio</title>
+    <link rel="stylesheet" href="portfolio.css">
+    
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container">
+        <nav>
+            <img src="Sangmalogo1.png" class="logo">
+            <ul id="sidemenu">
+                <li> <a href="#header">Home</a></li>
+                <li> <a href="#about">About</a></li>
+                <li> <a href="#education">Education</a></li>
+                <li> <a href="#experience">Experience</a></li>
+                <li> <a href="#skills">Skills</a></li>
+                <li> <a href="#project">Project</a></li>
+                 <i class="fa-solid fa-circle-xmark" onclick="closemenu()"></i>
+            </ul>
+             <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
+        <div class="header-text">
+            <p>Data Analyst</p>
+            <h1>Hi, I'm<span> Shibu</span>  <br>Sangma From Assam</h1>
+        </div>
+    </div>
+    <!------------------about--------------------->
+    <div id="about">
+        <div class="container">
+            <div class="row">
+                <div class="about-col-1">
+                    <img src="image(8).png">
+                </div>
+                <div class="about-col-2">
+                    <h2 class="sub-title">About Me</h2>
+                    <p>Motivated and detail-oriented aspiring Junior Data Analyst with a BCA from Bangalore University (2023) and 8+ years of technical expertise, including 6 years in technical support at Concentrix and 2 years as a Hardware Engineer at HP. Proficient in Python, SQL, Excel, and data visualization tools, with hands-on knowledge of AI applications and prompt engineering. Skilled at analyzing datasets, troubleshooting systems, and delivering data-driven solutions that improve performance and efficiency. Seeking to leverage a strong technical foundation and analytical mindset to provide business insights and support data-driven decision-making.</p>
+                    <div class="tab-titles">
+                        <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                        <p class="tab-links" onclick="opentab('education')">Education</p>
+                        <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                    </div>
+                    <div class="tab-contents active-tab" id="skills">
+                        <ul>
+                            <li><span>Data Analysis & Tools:</span> <br>Python (Pandas, NumPy, Matplotlib), SQL, Excel</li>
+                            <li><span>Data Visualization:</span> <br>Power BI, Excel Dashboards, Seaborn, Matplotlib</li>
+                            <li><span>Data Management:</span> <br>Data cleaning, Data wrangling, Query optimization</li>
+                            <li><span>Technical Expertise:</span> <br>Hardware troubleshooting, System optimization, Software support</li>
+                            <li><span>Soft Skills:</span> <br>Analytical thinking, Problem-solving, Collaboration, Stakeholder communication</li>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="education">
+                        <ul>
+                            <li><span>Bachelor of Computer Applications (BCA) </span><br> Bangalore University | 2023</li></li>
+                        </ul>
+                    </div>
+                    <div class="tab-contents"id="experience">
+                        <ul>
+                            <li><span>Technical Support Engineer</span><br>Concentrix | 2017 - 2023<br>Provided technical support for software and hardware issues, achieving a 95% customer satisfaction rate. Analyzed support data to identify trends and improve service delivery.</li>
+                            <li><span>Hardware Engineer</span><br> HP | 2015 - 2017<br>Diagnosed and repaired hardware issues for HP products, reducing repair times by 20%. Maintained detailed records of repairs and parts inventory.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------------------Project--------------------->
+    <div id="project">
+        <div class="container">
+            <h1 class="sub-title">Project</h1>
+            <div class="project-list">
+                <div>
+                    <i class="fa-brands fa-salesforce"></i>
+                    <h2>Sales Data Analysis</h2>
+                    <p>Analyzed sales data to identify trends and insights, resulting in a 15% increase in quarterly revenue.</p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-people-group"></i>
+                    <h2>Customer Segmentation</h2>
+                    <p>Segmented customers based on purchasing behavior, enabling targeted marketing strategies and improving customer engagement.</p>
+                </div>
+                <div>
+                    <i class='fas fa-globe'></i>
+                    <h2>Website Traffic Analysis</h2>
+                    <p>Analyzed website traffic data to identify user behavior patterns, leading to a 25% increase in user engagement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<!---------------------------Portfolio--------------------->
+ <div id="portfolio">
+    <div class="container">
+        <h1 class="sub-title">My Work</h1>
+        <div class="work-list">
+            <img src="" alt="">
+        </div>
+    </div>
+ </div> 
+  <div id="contact"></div>
+    <div class="container">
+        <div class="row">
+            <div class="contact-left">
+                <h1 class="sub-title">Contact Me</h1>
+                <p ><i class="fa-solid fa-envelope"></i>Email:sjsangma11@gmail.com   </p>
+                <p><i class="fa-solid fa-phone"></i>Phone: +919972534409, 9206620594</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/shibu-sangma-b73913151"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <b>
+
+                </b>
+                <a href="Shibu-Sangma-cv.docx" download class="btn btn2">Download CV</a>
+            </div>
+             <div class="contact-right">
+                <form name="submit-to-google-sheet">
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                    <input type="email" name="Email" placeholder="Your Email" required>
+                    <textarea  name="Message" rows="6" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn btn2">Submit</button>
+                </form>
+             </div>
+        </div>
+    </div>
+<!--------------------------- Scripts --------------------->
+<script>
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontents = document.getElementsByClassName("tab-contents");
+
+    function opentab(tabname){
+        for(tablink of tablinks){
+            tablink.classList.remove("active-link");
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+</script>
+<script>
+    var sidemenu = document.getElementById("sidemenu");
+
+    function openmenu(){
+        sidemenu.style.right = "0";
+    }
+    function closemenu(){
+        sidemenu.style.right = "-200px";
+    }
+</script>
+
+<!-- ✅ Keep only JavaScript files -->
+<script src="initial_migration.js"></script>
+<script src="index.js"></script>
+<script src="index(1).js"></script>
+<script src="Context.js"></script>  
+<script src="App.js"></script>
+<script src="serviceWorker.js">
+    // index.js
+
+</script>
+<script src="portfolio.js">
+    // index.js
+
+function loadJSON(file, title) {
+  fetch(file)
+    .then(response => response.json())
+    .then(data => {
+      console.log("Loaded:", file, data);
+
+      // Find portfolio container
+      const container = document.getElementById("portfolio");
+      if (container) {
+        const section = document.createElement("div");
+        section.style.margin = "20px 0";
+        section.style.padding = "15px";
+        section.style.border = "1px solid #ddd";
+        section.style.borderRadius = "8px";
+        section.style.background = "#f9f9f9";
+
+        // Title
+        const heading = document.createElement("h3");
+        heading.textContent = `📄 ${title}`;
+        heading.style.color = "#2c3e50";
+        section.appendChild(heading);
+
+        // Display JSON as formatted table or list
+        if (Array.isArray(data)) {
+          const table = document.createElement("table");
+          table.style.width = "100%";
+          table.style.borderCollapse = "collapse";
+
+          // Take keys from first item
+          const keys = Object.keys(data[0] || {});
+          const thead = document.createElement("thead");
+          thead.innerHTML = "<tr>" + keys.map(k => `<th style='border:1px solid #ccc;padding:6px;background:#eee;'>${k}</th>`).join("") + "</tr>";
+          table.appendChild(thead);
+
+          const tbody = document.createElement("tbody");
+          data.slice(0, 5).forEach(row => {   // show only 5 rows
+            const tr = document.createElement("tr");
+            keys.forEach(k => {
+              const td = document.createElement("td");
+              td.style.border = "1px solid #ccc";
+              td.style.padding = "6px";
+              td.textContent = row[k];
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          section.appendChild(table);
+
+        } else {
+          // If JSON is an object, pretty print
+          const pre = document.createElement("pre");
+          pre.textContent = JSON.stringify(data, null, 2);
+          pre.style.background = "#272822";
+          pre.style.color = "#f8f8f2";
+          pre.style.padding = "10px";
+          pre.style.borderRadius = "6px";
+          pre.style.overflowX = "auto";
+          section.appendChild(pre);
+        }
+
+        container.appendChild(section);
+      }
+    })
+    .catch(err => console.error("Error loading JSON:", err));
+}
+
+// Load your JSON files with labels
+loadJSON("USDTMock.json", "USDT Mock Data");
+loadJSON("Migrations.json", "Migrations Data");
+loadJSON("IERC20.json", "ERC20 Contract");
+loadJSON("IERC20Metadata.json", "ERC20 Metadata");
+
+</script>
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzgSmJ059lWwacVFNwzJGUiUbDV-c82y5IdDeEdoQhs8X9GJGZqyx6tSJ3LrB-U46w9OA/exec'
+  const form = document.forms['submit-to-google-sheet']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+      form.reset();
+  })
+</script>
+</body>
+</html>

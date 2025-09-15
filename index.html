@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shibu Sangma Portfolio</title>
+    <link rel="stylesheet" href="portfolio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <style>
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .sub-title {
+            font-size: 2.5em;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .data-section {
+            background: black;
+            padding: 60px 0;
+            margin: 40px 0 0 0;
+        }
+        
+        .data-container {
+            background: black;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .data-section-display {
+            margin: 25px 0;
+            padding: 20px;
+            background: black;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .data-section-display:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .data-section-display h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+            background:black;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .data-table th {
+            background: #34495e;
+            color: black;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            border-right: 1px solid #2c3e50;
+        }
+        
+        .data-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #141313;
+            border-right: 1px solid #3c0404;
+        }
+        
+        .data-table tbody tr:nth-child(even) {
+            background: blue;
+        }
+        
+        .data-table tbody tr:hover {
+            background: black;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+        
+        .data-pre {
+            background: #2c3e50;
+            color: black;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.85em;
+            line-height: 1.4;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .control-buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            background:black;
+            color: blueviolet;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            margin: 5px 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-danger {
+            background: black;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        
+        .success {
+            background: #478167;
+            color: #27ae60;
+            border-left: 5px solid #27ae60;
+        }
+        
+        .error {
+            background: black;
+            color: #e74c3c;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .loading {
+            background: #1cc014;
+            color: #856404;
+            border-left: 5px solid #ffc107;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: pink;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .file-input-container {
+            display: inline-block;
+            position: relative;
+            margin: 5px 10px;
+        }
+        
+        .file-input-container input[type="file"] {
+            display: none;
+        }
+        
+        .file-input-container label {
+            background: black;
+            color: blue;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .file-input-container label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .chart-container {
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        
+        #map {
+            height: 400px;
+            width: 100%;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        #actionPlan {
+            margin: 20px 0;
+            padding: 20px;
+            background: black;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #actionPlan h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        #actionPlan ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        
+        #actionPlan li {
+            margin-bottom: 10px;
+        }
+        
+        .notification {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .sub-title { font-size: 2em; }
+            .data-table { font-size: 0.8em; }
+            .data-table th, .data-table td { padding: 6px 4px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .chart-container { max-width: 100%; }
+        }
+        #portfolio{
+    padding: 50px 0;
+    
+}
+/*---------------------contact ------------*/
+.contact-left{
+    flex-basis:30%;
+
+}
+.contact-right{
+    flex-basis: 60%;
+
+}
+.contact-left p{
+    margin-top: 30px;
+}
+.contact-left p i{
+    color: #ff004f;
+    margin-right: 15px;
+    font-size: 20px;
+}
+.social-icons{
+    margin-top: 30px;
+}
+.social-icons a{
+    text-decoration: none;
+    font-size: 30px;
+    margin-right: 20px;
+    color: #ababab;
+    display: inline-block;
+    transition: transform 0.5s;
+}
+.social-icons a:hover{
+    color: #ff004f;
+    transform:translateY(-5px);
+}
+.btn.btn2{
+    display: inline-block;
+    background: #ff004f;
+    margin-top: 22px;
+    padding-inline: 30px;
+    padding-block: 12px;
+    border-block-start: 25px;
+}
+.contact-right form{
+    width: 100%;
+}
+form input, form textarea{
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: #262626;
+    padding: 15px;
+    margin: 15px 0;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 300;
+}
+form.btn2{
+    padding: 14px 60px;
+    font-size: 18px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+/*--------------------CSS FOR SMALL SCREENS----------*/
+nav .fa-solid{
+    display: none;
+}
+@media only screen and (max-width: 600px){
+
+#header{
+    background-image: url("Sangma - Copy.png");
+}
+.header-text{
+    margin-top: 100%;
+    font-size: 16px;
+    
+}
+.header-text h1{
+    font-size: 16px;
+    z-index: 2;
+}
+.header-text .intro-text {
+    margin-top: 9px;
+    font-size: 16px;
+    color: #fff;
+    text-align: left;
+    display: block;
+}
+nav .fa-solid{
+    display: block;
+    font-size: 25px;
+}
+nav ul{
+    background: #ff004f;
+    position: fixed;
+    top: 0;
+    right: -200px;
+    width: 200px;
+    height: 100vh;
+    padding: 50px;
+    z-index: 2;
+    transition: right 0.5s;
+}
+nav ul li{
+    display: block;
+    margin: 25px;
+}
+nav ul .fa-solid{
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    cursor: pointer;
+}
+.sub-title{
+    font-size: 45px;
+
+}
+.about-col-1, .about-col-2{
+    flex-basis: 100%;
+
+
+}
+
+.about-col-1{
+    flex-basis: 45%;
+    margin-bottom: 30px;
+}
+.about-col-2{
+    font-size: 15px;
+}
+
+.tab-links{
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+.contact-left, .contact-right{
+    flex-basis: 100%;
+}
+}
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container">
+        <nav>
+            <img src="Sangmalogo1.png" class="logo">
+            <ul id="sidemenu">
+                <li><a href="#header">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#project">Project</a></li>
+                <li><a href="#portfolio">My Details</a></li>
+                <i class="fa-solid fa-circle-xmark" onclick="closemenu()"></i>
+            </ul>
+            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
+        <div class="header-text">
+            <p>Data Analyst</p>
+            <h1>Hi, I'm<span> Shibu</span><br>Sangma From Assam</h1>
+        </div>
+    </div>
+
+    <!------------------About--------------------->
+    <div id="about">
+        <div class="container">
+            <div class="row">
+                <div class="about-col-1">
+                    <img src="image(8).png" alt="Shibu Sangma">
+                </div>
+                <div class="about-col-2">
+                    <h2 class="sub-title">About Me</h2>
+                    <p>Motivated and detail-oriented aspiring Junior Data Analyst with a BCA from Bangalore University (2023) and 8+ years of technical expertise, including 6 years in technical support at Concentrix and 2 years as a Hardware Engineer at HP. Proficient in Python, SQL, Excel, and data visualization tools, with hands-on knowledge of AI applications and prompt engineering. Skilled at analyzing datasets, troubleshooting systems, and delivering data-driven solutions that improve performance and efficiency. Seeking to leverage a strong technical foundation and analytical mindset to provide business insights and support data-driven decision-making.</p>
+                    
+                    <div class="tab-titles">
+                        <p class="tab-links active-link" onclick="opentab(this, 'skills')">Skills</p>
+                        <p class="tab-links" onclick="opentab(this, 'education')">Education</p>
+                        <p class="tab-links" onclick="opentab(this, 'experience')">Experience</p>
+                    </div>
+                    
+                    <div class="tab-contents active-tab" id="skills">
+                        <ul>
+                            <li><span>Data Analysis & Tools:</span><br>Python (Pandas, NumPy, Matplotlib), SQL, Excel</li>
+                            <li><span>Data Visualization:</span><br>Power BI, Excel Dashboards, Seaborn, Matplotlib</li>
+                            <li><span>Data Management:</span><br>Data cleaning, Data wrangling, Query optimization</li>
+                            <li><span>Technical Expertise:</span><br>Hardware troubleshooting, System optimization, Software support</li>
+                            <li><span>Soft Skills:</span><br>Analytical thinking, Problem-solving, Collaboration, Stakeholder communication</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-contents" id="education">
+                        <ul>
+                            <li><span>Bachelor of Computer Applications (BCA)</span><br>Bangalore University | 2023</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-contents" id="experience">
+                        <ul>
+                            <li><span>Technical Support Engineer</span><br>Concentrix | 2017 - 2023<br>Provided technical support for software and hardware issues, achieving a 95% customer satisfaction rate. Analyzed support data to identify trends and improve service delivery.</li>
+                            <li><span>Hardware Engineer</span><br>HP | 2015 - 2017<br>Diagnosed and repaired hardware issues for HP products, reducing repair times by 20%. Maintained detailed records of repairs and parts inventory.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------------Projects--------------------->
+    <div id="project">
+        <div class="container">
+            <h1 class="sub-title">Projects</h1>
+            <div class="project-list">
+                <div>
+                    <i class="fa-brands fa-salesforce"></i>
+                    <h2>Sales Data Analysis</h2>
+                    <p>Analyzed sales data to identify trends and insights, resulting in a 15% increase in quarterly revenue.</p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-people-group"></i>
+                    <h2>Customer Segmentation</h2>
+                    <p>Segmented customers based on purchasing behavior, enabling targeted marketing strategies and improving customer engagement.</p>
+                </div>
+                <div>
+                    <i class='fas fa-globe'></i>
+                    <h2>Website Traffic Analysis</h2>
+                    <p>Analyzed website traffic data to identify user behavior patterns, leading to a 25% increase in user engagement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------------My Work with Data Analysis--------------------->
+    <div class="data-section">
+        <div class="container">
+            <h1 class="sub-title" style="color: white; margin-bottom: 20px;">📊 Data Analysis</h1>
+            <p style="text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 1.1em; margin-bottom: 30px;">
+                Interactive data visualization and analytics for various file types
+            </p>
+            
+            <div class="data-container">
+                <!-- Control Panel -->
+                <div class="control-buttons">
+                    <div class="file-input-container">
+                        <label for="dataUpload">
+                            <i class="fas fa-upload"></i> Upload Data
+                        </label>
+                        <input type="file" id="dataUpload" multiple accept=".csv,.xlsx,.xls,.txt">
+                    </div>
+                    <button class="btn btn-danger" onclick="clearAllData()">
+                        <i class="fas fa-trash"></i> Clear All Data
+                    </button>
+                </div>
+                
+                <!-- Statistics Dashboard -->
+                <div id="statsContainer" style="display: none;">
+                    <h3 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">📈 Data Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="filesLoaded">0</div>
+                            <div class="stat-label">Files Loaded</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalRecords">0</div>
+                            <div class="stat-label">Total Records</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="loadTime">0ms</div>
+                            <div class="stat-label">Load Time</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="dataTypes">0</div>
+                            <div class="stat-label">Data Types</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dataChart"></canvas>
+                    </div>
+                    <div id="actionPlan"></div>
+                    <div id="map" style="display: none;"></div>
+                </div>
+                
+                <!-- Data Display Area -->
+                <div id="portfolio">
+                    <div id="welcomeMessage" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                        <i class="fas fa-chart-bar" style="font-size: 3em; margin-bottom: 20px; color: #667eea;"></i>
+                        <h3>Welcome to My Data Analysis</h3>
+                        <p>Click "Upload Data" to select files (CSV, Excel, or text) for immediate analysis and viewing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!----------------Portfolio----------------------------------->
+<div id="portfolio">
+    <div class="container">
+        <h1 class="sub-title">My Details</h1>
+        <div class="work-list">
+            <img src="" alt="">
+        </div>
+    </div>
+ </div> 
+  <div id="contact"></div>
+    <div class="container">
+        <div class="row">
+            <div class="contact-left">
+                <h1 class="sub-title">Contact Me</h1>
+                <p ><i class="fa-solid fa-envelope"></i>Email:sjsangma11@gmail.com   </p>
+                <p><i class="fa-solid fa-phone"></i>Phone: +919972534409, 9206620594</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/shibu-sangma-b73913151"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <b>
+
+                </b>
+                <a href="Shibu-Sangma-cv.docx" download class="btn btn2">Download CV</a>
+            </div>
+             <div class="contact-right">
+                <form name="submit-to-google-sheet">
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                    <input type="email" name="Email" placeholder="Your Email" required>
+                    <textarea  name="Message" rows="6" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn btn2">Submit</button>
+                </form>
+             </div>
+        </div>
+    </div>
+
+    <!------------------Scripts--------------------->
+    <script>
+        // Tab functionality
+        var tablinks = document.getElementsByClassName("tab-links");
+        var tabcontents = document.getElementsByClassName("tab-contents");
+
+        function opentab(el, tabname) {
+            for (let tablink of tablinks) {
+                tablink.classList.remove("active-link");
+            }
+            for (let tabcontent of tabcontents) {
+                tabcontent.classList.remove("active-tab");
+            }
+            el.classList.add("active-link");
+            document.getElementById(tabname).classList.add("active-tab");
+        }
+
+        // Mobile menu functionality
+        var sidemenu = document.getElementById("sidemenu");
+
+        function openmenu() {
+            sidemenu.style.right = "0";
+        }
+
+        function closemenu() {
+            sidemenu.style.right = "-200px";
+        }
+
+
+        // Data Loader functionality
+        let loadedFilesCount = 0;
+        let totalRecordsCount = 0;
+        let loadStartTime = 0;
+        let loadedDataTypes = new Set();
+        let chartData = { labels: [], datasets: [{ data: [], backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'] }] };
+        let dataChart = null;
+        let suggestions = [];
+        let positions = [];
+        let map;
+
+        async function initMap() {
+            try {
+                const { Map } = await google.maps.importLibrary("maps");
+                const { Marker } = await google.maps.importLibrary("marker");
+                const center = positions.length > 0 ? positions[0] : { lat: 0, lng: 0 };
+                map = new Map(document.getElementById("map"), {
+                    center: center,
+                    zoom: 8,
+                });
+                positions.forEach(pos => {
+                    const color = pos.needsImprovement ? 'red' : 'green';
+                    new Marker({
+                        position: { lat: pos.lat, lng: pos.lng },
+                        map,
+                        title: pos.status || 'Location',
+                        icon: `http://maps.google.com/mapfiles/ms/icons/${color}-dot.png`
+                    });
+                });
+                document.getElementById('map').style.display = 'block';
+                console.log("🗺️ Map initialized with", positions.length, "markers");
+            } catch (err) {
+                console.error("❌ Error initializing map:", err);
+                showErrorMessage('Map', 'Map Initialization', `Failed to load map: ${err.message}`);
+            }
+        }
+
+        function showLoadingMessage(file, title) {
+            const container = document.getElementById("portfolio");
+            const loadingDiv = document.createElement("div");
+            loadingDiv.id = `loading-${file}`;
+            loadingDiv.className = "status-message loading";
+            loadingDiv.innerHTML = `
+                <div class="loading-spinner"></div>
+                Loading ${title} from ${file}...
+            `;
+            container.appendChild(loadingDiv);
+            console.log("⏳ Showing loading message for:", file);
+        }
+
+        function removeLoadingMessage(file) {
+            const loadingEl = document.getElementById(`loading-${file}`);
+            if (loadingEl) {
+                loadingEl.remove();
+                console.log("✅ Removed loading message for:", file);
+            }
+        }
+
+        function showErrorMessage(file, title, errorMsg) {
+            const container = document.getElementById("portfolio");
+            const errorDiv = document.createElement("div");
+            errorDiv.className = "status-message error";
+            errorDiv.innerHTML = `
+                <strong>❌ Failed to load ${title}</strong><br>
+                <small>File: ${file}</small><br>
+                <small>Error: ${errorMsg}</small><br>
+                <small>💡 Ensure the file is in a supported format (CSV, Excel, or text).</small>
+            `;
+            container.appendChild(errorDiv);
+            console.log("❌ Error message displayed for:", file, errorMsg);
+        }
+
+        function analyzeData(data, file, title) {
+            let analysis = { labels: [], values: [] };
+            let localPositions = [];
+            let localSuggestions = [];
+            let maxValue = 0;
+
+            if (Array.isArray(data)) {
+                loadedDataTypes.add('Array');
+                const recordCount = data.length;
+                totalRecordsCount += recordCount;
+
+                if (recordCount > 0) {
+                    const keys = Object.keys(data[0] || {});
+                    const analysisKey = keys.find(k => ['status', 'category'].includes(k.toLowerCase())) || keys[0] || 'value';
+                    const counts = {};
+                    data.forEach(item => {
+                        const value = item[analysisKey] || 'Unknown';
+                        counts[value] = (counts[value] || 0) + 1;
+                        if ('lat' in item && 'lng' in item && !isNaN(parseFloat(item.lat)) && !isNaN(parseFloat(item.lng))) {
+                            localPositions.push({
+                                lat: parseFloat(item.lat),
+                                lng: parseFloat(item.lng),
+                                status: value,
+                                needsImprovement: (counts[value] || 0) < (maxValue * 0.5 || 1)
+                            });
+                        }
+                    });
+                    analysis.labels = Object.keys(counts);
+                    analysis.values = Object.values(counts);
+                    maxValue = Math.max(...analysis.values);
+                    analysis.labels.forEach((label, i) => {
+                        if (analysis.values[i] < maxValue * 0.5) {
+                            localSuggestions.push(`Improve ${label} by allocating more resources and monitoring progress.`);
+                        }
+                    });
+                } else {
+                    analysis.labels = ['Empty'];
+                    analysis.values = [1];
+                    localSuggestions.push('Add data to the dataset for better analysis.');
+                }
+            } else {
+                loadedDataTypes.add('Text');
+                const lines = data.split('\n').filter(line => line.trim());
+                totalRecordsCount += lines.length;
+                const lengths = lines.map(line => line.trim().split(/\s+/).length);
+                const lengthCounts = {};
+                lengths.forEach(len => {
+                    lengthCounts[len] = (lengthCounts[len] || 0) + 1;
+                });
+                analysis.labels = Object.keys(lengthCounts).map(len => `${len} words`);
+                analysis.values = Object.values(lengthCounts);
+                maxValue = Math.max(...analysis.values);
+                analysis.labels.forEach((label, i) => {
+                    if (analysis.values[i] < maxValue * 0.5) {
+                        localSuggestions.push(`Increase content in lines with ${label} for better coverage.`);
+                    }
+                });
+            }
+
+            chartData.labels.push(...analysis.labels.map(label => `${title}: ${label}`));
+            chartData.datasets[0].data.push(...analysis.values);
+            positions.push(...localPositions);
+            suggestions.push(...localSuggestions);
+
+            console.log("📊 Analyzed data for:", file, analysis);
+            return analysis;
+        }
+
+        function displayData(data, title, file) {
+            const container = document.getElementById("portfolio");
+            hideWelcomeMessage();
+            
+            const section = document.createElement("div");
+            section.className = "data-section-display";
+            section.innerHTML = `<h3>📄 ${title} <small style="color: #7f8c8d;">(${file})</small></h3>`;
+
+            const successDiv = document.createElement("div");
+            successDiv.className = "status-message success";
+            
+            if (Array.isArray(data)) {
+                const recordCount = data.length;
+                successDiv.innerHTML = `✅ Successfully loaded ${recordCount} records from ${file}`;
+                section.appendChild(successDiv);
+
+                if (recordCount > 0) {
+                    const table = document.createElement("table");
+                    table.className = "data-table";
+                    const keys = Object.keys(data[0] || {});
+                    const thead = document.createElement("thead");
+                    thead.innerHTML = "<tr>" + keys.map(k => `<th>${k}</th>`).join("") + "</tr>";
+                    table.appendChild(thead);
+                    const tbody = document.createElement("tbody");
+                    const displayCount = Math.min(5, data.length);
+                    for (let i = 0; i < displayCount; i++) {
+                        const row = data[i];
+                        const tr = document.createElement("tr");
+                        keys.forEach(k => {
+                            const td = document.createElement("td");
+                            let value = row[k];
+                            if (value === undefined || value === null) {
+                                value = 'N/A';
+                            } else if (typeof value === 'object') {
+                                value = JSON.stringify(value, null, 2);
+                                if (value.length > 50) value = value.substring(0, 47) + "...";
+                            } else if (typeof value === 'string' && value.length > 50) {
+                                value = value.substring(0, 47) + "...";
+                            } else {
+                                value = String(value);
+                            }
+                            td.textContent = value;
+                            tr.appendChild(td);
+                        });
+                        tbody.appendChild(tr);
+                    }
+                    table.appendChild(tbody);
+                    section.appendChild(table);
+                    if (data.length > 5) {
+                        const moreInfo = document.createElement("div");
+                        moreInfo.style.textAlign = "center";
+                        moreInfo.style.marginTop = "15px";
+                        moreInfo.style.padding = "10px";
+                        moreInfo.style.background = "#e8f4f8";
+                        moreInfo.style.borderRadius = "8px";
+                        moreInfo.innerHTML = `
+                            <small>📊 Showing 5 of ${data.length} records (${((5/data.length)*100).toFixed(1)}% of total data)</small>
+                        `;
+                        section.appendChild(moreInfo);
+                    }
+                } else {
+                    section.innerHTML += `<p style="color: #e74c3c; text-align: center; padding: 20px;">⚠️ No records found in this dataset.</p>`;
+                }
+            } else {
+                loadedDataTypes.add('Text');
+                const lineCount = data.split('\n').length;
+                successDiv.innerHTML = `✅ Successfully loaded ${lineCount} lines from ${file}`;
+                section.appendChild(successDiv);
+                const pre = document.createElement("pre");
+                pre.className = "data-pre";
+                pre.textContent = data;
+                section.appendChild(pre);
+            }
+
+            container.appendChild(section);
+            loadedFilesCount++;
+            console.log("📄 Displayed data for:", file);
+        }
+
+        function updateStatistics() {
+            const statsContainer = document.getElementById("statsContainer");
+            if (loadedFilesCount > 0) {
+                statsContainer.style.display = "block";
+                document.getElementById("filesLoaded").textContent = loadedFilesCount;
+                document.getElementById("totalRecords").textContent = totalRecordsCount;
+                document.getElementById("loadTime").textContent = `${Date.now() - loadStartTime}ms`;
+                document.getElementById("dataTypes").textContent = loadedDataTypes.size;
+                console.log("📈 Updated statistics:", { filesLoaded: loadedFilesCount, totalRecords: totalRecordsCount, dataTypes: loadedDataTypes.size });
+            }
+        }
+
+        function updateChart() {
+            if (chartData.labels.length === 0 || chartData.datasets[0].data.length === 0) {
+                console.log("⚠️ No data to update chart");
+                return;
+            }
+            if (dataChart) {
+                dataChart.data = chartData;
+                dataChart.update();
+            } else {
+                const ctx = document.getElementById('dataChart').getContext('2d');
+                dataChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'top' },
+                            title: { display: true, text: 'Data Distribution Analysis' }
+                        }
+                    }
+                });
+            }
+            console.log("📊 Updated chart with:", chartData);
+        }
+
+        function updateActionPlan() {
+            const actionPlanDiv = document.getElementById('actionPlan');
+            let html = '<h3>Action Plan: Next Steps</h3>';
+            if (suggestions.length > 0) {
+                html += '<ul>';
+                suggestions.forEach(s => {
+                    html += `<li>${s}</li>`;
+                });
+                html += '</ul>';
+            } else {
+                html += '<p>No immediate improvements needed. Continue monitoring.</p>';
+            }
+            if (positions.length > 0) {
+                html += '<div class="notification">Notification: Areas needing improvement are marked in red on the map.</div>';
+            } else {
+                html += '<div class="notification">Notification: No location data found for mapping improvements.</div>';
+            }
+            actionPlanDiv.innerHTML = html;
+            console.log("📋 Updated action plan with", suggestions.length, "suggestions");
+        }
+
+        function hideWelcomeMessage() {
+            const welcome = document.getElementById("welcomeMessage");
+            if (welcome) {
+                welcome.style.display = "none";
+                console.log("🙈 Hid welcome message");
+            }
+        }
+
+        function showWelcomeMessage() {
+            const welcome = document.getElementById("welcomeMessage");
+            if (welcome) {
+                welcome.style.display = "block";
+                console.log("👋 Showed welcome message");
+            }
+        }
+
+        // File upload handling (process immediately on change)
+        document.getElementById('dataUpload').addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+            if (files.length === 0) {
+                showErrorMessage('No file', 'No File Selected', 'Please select at least one file.');
+                console.log("⚠️ No files uploaded");
+                return;
+            }
+
+            clearAllData();
+            loadStartTime = Date.now();
+            console.log("🚀 Starting file load at", loadStartTime);
+
+            files.forEach(file => {
+                if (!file.name.match(/\.(csv|xlsx|xls|txt)$/i)) {
+                    showErrorMessage(file.name, file.name, 'Unsupported file format. Please use CSV, Excel, or text.');
+                    console.log("❌ Unsupported file format:", file.name);
+                    return;
+                }
+
+                showLoadingMessage(file.name, file.name);
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        let data;
+                        if (file.name.endsWith('.csv')) {
+                            const lines = e.target.result.split('\n').filter(line => line.trim());
+                            if (lines.length === 0) throw new Error('Empty CSV file');
+                            const headers = lines[0].split(',').map(h => h.trim());
+                            data = lines.slice(1).map(line => {
+                                const values = line.split(',').map(v => v.trim());
+                                const obj = {};
+                                headers.forEach((h, i) => obj[h] = values[i] || '');
+                                return obj;
+                            });
+                            console.log("📜 Parsed CSV:", file.name, data);
+                        } else if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+                            const workbook = XLSX.read(e.target.result, { type: 'binary' });
+                            const sheetName = workbook.SheetNames[0];
+                            const sheet = workbook.Sheets[sheetName];
+                            data = XLSX.utils.sheet_to_json(sheet);
+                            console.log("📑 Parsed Excel:", file.name, data);
+                        } else {
+                            data = e.target.result;
+                            console.log("📝 Loaded text:", file.name, data);
+                        }
+                        removeLoadingMessage(file.name);
+                        analyzeData(data, file.name, file.name);
+                        displayData(data, file.name, file.name);
+                        updateStatistics();
+                        updateChart();
+                        updateActionPlan();
+                        if (positions.length > 0) {
+                            initMap();
+                        }
+                    } catch (err) {
+                        removeLoadingMessage(file.name);
+                        showErrorMessage(file.name, file.name, `Error: ${err.message}`);
+                        console.error("❌ Error processing file:", file.name, err);
+                    }
+                };
+                reader.onerror = function() {
+                    removeLoadingMessage(file.name);
+                    showErrorMessage(file.name, file.name, 'Error reading file.');
+                    console.error("❌ Error reading file:", file.name);
+                };
+                if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+                    reader.readAsBinaryString(file);
+                } else {
+                    reader.readAsText(file);
+                }
+            });
+        });
+
+        function clearAllData() {
+            const container = document.getElementById("portfolio");
+            container.innerHTML = `
+                <div id="welcomeMessage" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                    <i class="fas fa-chart-bar" style="font-size: 3em; margin-bottom: 20px; color: #667eea;"></i>
+                    <h3>Welcome to My Data Analysis Portfolio</h3>
+                    <p>Click "Upload Data" to select files (CSV, Excel, or text) for immediate analysis and viewing.</p>
+                </div>
+            `;
+            loadedFilesCount = 0;
+            totalRecordsCount = 0;
+            loadStartTime = 0;
+            loadedDataTypes.clear();
+            chartData.labels = [];
+            chartData.datasets[0].data = [];
+            suggestions = [];
+            positions = [];
+            if (dataChart) {
+                dataChart.destroy();
+                dataChart = null;
+            }
+            document.getElementById("statsContainer").style.display = "none";
+            document.getElementById('map').style.display = "none";
+            document.getElementById('dataUpload').value = '';
+            console.log("🧹 Cleared all data and reset state");
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("🚀 Portfolio loaded successfully!");
+            console.log("💡 Click 'Upload Data' to select files for immediate analysis.");
+        });
+
+        // Google Maps loader
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c] = {});
+var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "YOUR_API_KEY", v: "weekly"});
+    </script>
+    <script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzgSmJ059lWwacVFNwzJGUiUbDV-c82y5IdDeEdoQhs8X9GJGZqyx6tSJ3LrB-U46w9OA/exec'
+  const form = document.forms['submit-to-google-sheet']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+      form.reset();
+  })
+</script>
+</body>
+</html>
